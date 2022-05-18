@@ -7,8 +7,6 @@ use Illuminate\Support\Facades\DB;
 use App\Http\Resources\BooksResource;
 use App\Repositories\BooksRepository;
 use Illuminate\Support\Facades\Validator;
-// use Illuminate\Validation\ValidationException;
-use Illuminate\Validation\ValidationException;
 use Symfony\Component\HttpFoundation\Response;
 
 class BooksService
@@ -61,7 +59,6 @@ class BooksService
             $message = "Book created successfully!";
             DB::commit();
             return ApiCustomResponse::successResponse($message, new BooksResource($book), Response::HTTP_CREATED);
-
         }
         catch(InvalidArgumentException $e){
             DB::rollback();
@@ -74,7 +71,7 @@ class BooksService
             return ApiCustomResponse::errorResponse($message, Response::HTTP_INTERNAL_SERVER_ERROR, $e);
         }
     }
-
+    // get a single book by id
     public function getBookById($id)
     {
         try {
@@ -83,7 +80,7 @@ class BooksService
                 $message = "No books found";
                 return ApiCustomResponse::errorResponse($message, Response::HTTP_NOT_FOUND);
             }
-            $message = "Books retrieved successfully!";
+            $message = "Book retrieved successfully!";
             return ApiCustomResponse::successResponse($message, new BooksResource($book), Response::HTTP_OK);
         } catch (\Exception $e) {
             $message = 'Something went wrong while processing your request.';

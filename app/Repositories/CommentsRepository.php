@@ -25,10 +25,4 @@ class CommentsRepository
     {
         return $this->comment->create($attributes);
     }
-
-    // get comment by ip and date
-    public function getByIpAndDate($ip, $date)
-    {
-        return $this->comment->where('ip', $ip)->where('created_at', $date)->get();
-    }
 }

@@ -1,18 +1,16 @@
 <?php
 namespace App\Services;
+
 use InvalidArgumentException;
 use Illuminate\Support\Facades\DB;
 use App\Http\Resources\CommentsResource;
 use App\Repositories\CommentsRepository;
 use App\utils\ApiCustomResponse;
-use App\Repositories\BooksRepository;
 use Illuminate\Support\Facades\Validator;
-// use Illuminate\Validation\ValidationException;
-use Illuminate\Validation\ValidationException;
 use Symfony\Component\HttpFoundation\Response;
 
-class CommentsService {
-
+class CommentsService
+{
     protected $commentsRepository;
 
     public function __construct(CommentsRepository $commentsRepository)
@@ -56,31 +54,12 @@ class CommentsService {
             $message = "Comment created successfully!";
             DB::commit();
             return ApiCustomResponse::successResponse($message, new CommentsResource($comment), Response::HTTP_CREATED);
-
-        }
-        catch(InvalidArgumentException $e){
+        } catch (InvalidArgumentException $e) {
             DB::rollback();
             $message = $e->getMessage();
             return ApiCustomResponse::errorResponse($message, Response::HTTP_UNPROCESSABLE_ENTITY, $e);
-        }
-        catch(\Exception $e){
-            DB::rollback();
-            $message = 'Something went wrong while processing your request.';
-            return ApiCustomResponse::errorResponse($message, Response::HTTP_INTERNAL_SERVER_ERROR, $e);
-        }
-    }
-
-    public function getCommentById($id)
-    {
-        try {
-            $comment = $this->commentsRepository->getById($id);
-            if (!$comment) {
-                $message = "No comments found";
-                return ApiCustomResponse::errorResponse($message, Response::HTTP_NOT_FOUND);
-            }
-            $message = "Comments retrieved successfully!";
-            return ApiCustomResponse::successResponse($message, new CommentsResource($comment), Response::HTTP_OK);
         } catch (\Exception $e) {
+            DB::rollback();
             $message = 'Something went wrong while processing your request.';
             return ApiCustomResponse::errorResponse($message, Response::HTTP_INTERNAL_SERVER_ERROR, $e);
         }
