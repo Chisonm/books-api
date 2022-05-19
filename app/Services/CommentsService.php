@@ -43,7 +43,7 @@ class CommentsService
             $validator = Validator::make($data, [
             'book_id' => 'required|integer|exists:books,id',
             'name' => 'required|string|max:255',
-            'body' => 'required|string|max:255',
+            'body' => 'required|string|max:500',
         ]);
             if ($validator->fails()) {
                 throw new InvalidArgumentException($validator->errors()->first());
