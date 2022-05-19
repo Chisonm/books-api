@@ -1,10 +1,10 @@
 <?php
 
 namespace Database\Seeders;
-
+use App\Models\Comment;
 use Illuminate\Database\Seeder;
 
-class BooksTableSeeder extends Seeder
+class CommentSeeder extends Seeder
 {
     /**
      * Run the database seeds.
@@ -13,6 +13,6 @@ class BooksTableSeeder extends Seeder
      */
     public function run()
     {
-        \App\Models\Book::factory(10)->create();
+        Comment::factory()->count(20)->create();
     }
 }
