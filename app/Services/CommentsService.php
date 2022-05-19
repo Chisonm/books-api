@@ -31,7 +31,8 @@ class CommentsService
             $message = "Comments retrieved successfully!";
             return ApiCustomResponse::successResponse($message, CommentsResource::collection($comments), Response::HTTP_OK);
         } catch (\Exception $e) {
-            return response()->json(['error' => $e->getMessage()], Response::HTTP_INTERNAL_SERVER_ERROR);
+            $message = 'Something went wrong while processing your request.';
+            return ApiCustomResponse::errorResponse($message, Response::HTTP_INTERNAL_SERVER_ERROR, $e);
         }
     }
 

@@ -55,7 +55,6 @@ class BooksService
             $data['authors'] = $authors;
 
             $book = $this->booksRepository->create($data);
-            // dd($book);
             $message = "Book created successfully!";
             DB::commit();
             return ApiCustomResponse::successResponse($message, new BooksResource($book), Response::HTTP_CREATED);
