@@ -12,7 +12,7 @@ class BookFactory extends Factory
      * @var string
      */
     protected $model = Book::class;
-    
+
     /**
      * Define the model's default state.
      *
@@ -21,7 +21,7 @@ class BookFactory extends Factory
     public function definition()
     {
         return [
-            'title' => $this->faker->title(),
+            'title' => $this->faker->sentence(),
             'released' => $this->faker->dateTime(),
             'authors' => $this->faker->name(),
             'country' => $this->faker->country(),
