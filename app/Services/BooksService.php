@@ -52,8 +52,7 @@ class BooksService
     // get a single book by id
     public function getBookById($id)
     {
-
-            $book = $this->booksRepository->getById($id);
-            return $book;
+        $book = $this->booksRepository->getById($id);
+        return $book;
     }
 }
