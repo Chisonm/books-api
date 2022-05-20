@@ -13,10 +13,10 @@ class ApiCustomResponse
             $data = null;
         }
         $body = [
-            'Message' => $message,
-            'Data' => $data,
-            'Success' => true,
-            'Status_Code' => $code,
+            'message' => $message,
+            'data' => $data,
+            'success' => true,
+            'status_Code' => $code,
 
         ];
         return response()->json($body, $code);
@@ -28,10 +28,10 @@ class ApiCustomResponse
         $traceMsg = empty($trace) ?  null  : $trace->getMessage();
 
         $body = [
-            'Message' => $message,
-            'Status_Code' => $code,
-            'Success' => false,
-            'Error_debug' => $traceMsg,
+            'message' => $message,
+            'status_Code' => $code,
+            'success' => false,
+            'error_debug' => $traceMsg,
         ];
 
         !empty($trace) ? logger($trace->getMessage(), $trace->getTrace()) : null;
