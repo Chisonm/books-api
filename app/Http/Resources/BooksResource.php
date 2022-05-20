@@ -24,7 +24,7 @@ class BooksResource extends JsonResource
             'number_of_pages' => $this->number_of_pages,
             'released' => $this->released,
             'comment_count' => $this->comments(),
-            'comments' => $this->comment()->first() ?? null,
+            'comments' => $this->comment()->get() ?? null,
         ];
     }
 }
