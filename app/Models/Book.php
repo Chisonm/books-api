@@ -17,12 +17,12 @@ class Book extends Model
         'released' => 'date',
     ];
 
-    public function comments()
+    public function commentsCount()
     {
         return $this->hasMany(Comment::class)->count();
     }
 
-    public function comment()
+    public function comments()
     {
         return $this->hasMany(Comment::class);
     }

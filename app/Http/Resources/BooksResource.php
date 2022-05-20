@@ -23,8 +23,8 @@ class BooksResource extends JsonResource
             'country' => $this->country,
             'number_of_pages' => $this->number_of_pages,
             'released' => $this->released,
-            'comment_count' => $this->comments(),
-            'comments' => $this->comment()->get() ?? null,
+            'comment_count' => $this->commentsCount(),
+            'comments' => $this->comments ?? null,
         ];
     }
 }
