@@ -3,8 +3,13 @@
 namespace App\Http\Controllers\Api;
 
 use Illuminate\Http\Request;
-use App\Http\Controllers\Controller;
+use InvalidArgumentException;
 use App\Services\BooksService;
+use App\utils\ApiCustomResponse;
+use Illuminate\Support\Facades\DB;
+use App\Http\Controllers\Controller;
+use App\Http\Resources\BooksResource;
+use Symfony\Component\HttpFoundation\Response;
 
 class BooksController extends Controller
 {
@@ -22,7 +27,14 @@ class BooksController extends Controller
      */
     public function index()
     {
-        return $this->booksService->getAll();
+        try {
+            $books = $this->booksService->getAll();
+            $message = "Books retrieved successfully!";
+            return ApiCustomResponse::successResponse($message, BooksResource::collection($books), Response::HTTP_OK);
+        } catch (\Exception $e) {
+            $message = 'Something went wrong while processing your request.';
+            return ApiCustomResponse::errorResponse($message, Response::HTTP_INTERNAL_SERVER_ERROR, $e);
+        }
     }
 
     /**
@@ -33,7 +45,21 @@ class BooksController extends Controller
      */
     public function store(Request $request)
     {
-        return $this->booksService->createBook($request->all());
+        DB::beginTransaction();
+        try {
+            $book = $this->booksService->createBook($request->all());
+            $message = "Book created successfully!";
+            DB::commit();
+            return ApiCustomResponse::successResponse($message, new BooksResource($book), Response::HTTP_CREATED);
+        } catch (InvalidArgumentException $e) {
+            DB::rollback();
+            $message = $e->getMessage();
+            return ApiCustomResponse::errorResponse($message, Response::HTTP_UNPROCESSABLE_ENTITY, $e);
+        } catch (\Exception $e) {
+            DB::rollback();
+            $message = 'Something went wrong while processing your request.';
+            return ApiCustomResponse::errorResponse($message, Response::HTTP_INTERNAL_SERVER_ERROR, $e);
+        }
     }
 
     /**
@@ -44,6 +70,17 @@ class BooksController extends Controller
      */
     public function show($id)
     {
-        return $this->booksService->getBookById($id);
+        try {
+            $book = $this->booksService->getBookById($id);
+            if (!$book) {
+                $message = "No books found";
+                return ApiCustomResponse::errorResponse($message, Response::HTTP_NOT_FOUND);
+            }
+            $message = "Book retrieved successfully!";
+            return ApiCustomResponse::successResponse($message, new BooksResource($book), Response::HTTP_OK);
+        } catch (\Exception $e) {
+            $message = 'Something went wrong while processing your request.';
+            return ApiCustomResponse::errorResponse($message, Response::HTTP_INTERNAL_SERVER_ERROR, $e);
+        }
     }
 }
