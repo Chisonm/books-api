@@ -3,11 +3,8 @@ namespace App\Services;
 
 use InvalidArgumentException;
 use App\utils\ApiCustomResponse;
-use Illuminate\Support\Facades\DB;
-use App\Http\Resources\BooksResource;
 use App\Repositories\BooksRepository;
 use Illuminate\Support\Facades\Validator;
-use Symfony\Component\HttpFoundation\Response;
 
 class BooksService
 {

@@ -28,6 +28,10 @@ class CommentsController extends Controller
     {
         try {
             $comments = $this->commentService->getAll();
+            if (!$comments) {
+                $message = "No comments found!";
+                return ApiCustomResponse::errorResponse($message, Response::HTTP_NO_CONTENT);
+            }
             $message = "Comments retrieved successfully!";
             return ApiCustomResponse::successResponse($message, CommentsResource::collection($comments), Response::HTTP_OK);
         } catch (\Exception $e) {

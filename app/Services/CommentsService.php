@@ -2,10 +2,8 @@
 namespace App\Services;
 
 use InvalidArgumentException;
-use Illuminate\Support\Facades\DB;
-use App\Http\Resources\CommentsResource;
-use App\Repositories\CommentsRepository;
 use App\utils\ApiCustomResponse;
+use App\Repositories\CommentsRepository;
 use Illuminate\Support\Facades\Validator;
 
 class CommentsService
@@ -21,11 +19,6 @@ class CommentsService
     public function getAll()
     {
         $comments = $this->commentsRepository->getAll();
-
-        if (!$comments) {
-            $message = "No comments found!";
-            return ApiCustomResponse::errorResponse($message, Response::HTTP_NO_CONTENT);
-        }
         return $comments;
     }
 
