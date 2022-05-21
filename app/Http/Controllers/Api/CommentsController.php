@@ -9,6 +9,7 @@ use Illuminate\Support\Facades\DB;
 use App\Http\Controllers\Controller;
 use App\Http\Resources\CommentsResource;
 use Symfony\Component\HttpFoundation\Response;
+use InvalidArgumentException;
 
 class CommentsController extends Controller
 {
@@ -54,7 +55,6 @@ class CommentsController extends Controller
             $message = $e->getMessage();
             return ApiCustomResponse::errorResponse($message, Response::HTTP_UNPROCESSABLE_ENTITY, $e);
         } catch (\Exception $e) {
-            DB::rollback();
             $message = 'Something went wrong while processing your request.';
             return ApiCustomResponse::errorResponse($message, Response::HTTP_INTERNAL_SERVER_ERROR, $e);
         }

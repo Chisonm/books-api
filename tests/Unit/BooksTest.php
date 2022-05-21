@@ -28,7 +28,7 @@ class BooksTest extends TestCase
        $response
          ->assertStatus(201,$response->status())
          ->assertJson([
-            'Success' => true,
+            'success' => true,
         ]);
     }
 
@@ -49,7 +49,7 @@ class BooksTest extends TestCase
        $response
          ->assertStatus(422,$response->status())
          ->assertJson([
-            'Success' => false,
+            'success' => false,
         ]);
     }
 
@@ -63,13 +63,13 @@ class BooksTest extends TestCase
             $response
             ->assertStatus(404,$response->status())
             ->assertJson([
-                'Success' => false,
+                'success' => false,
                 ]);
         }
         $response
           ->assertStatus(200,$response->status())
           ->assertJson([
-            'Success' => true,
+            'success' => true,
         ]);
     }
 

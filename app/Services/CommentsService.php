@@ -7,7 +7,6 @@ use App\Http\Resources\CommentsResource;
 use App\Repositories\CommentsRepository;
 use App\utils\ApiCustomResponse;
 use Illuminate\Support\Facades\Validator;
-use Symfony\Component\HttpFoundation\Response;
 
 class CommentsService
 {
@@ -38,8 +37,8 @@ class CommentsService
             'name' => 'required|string|max:255',
             'body' => 'required|string|max:500',
         ]);
-        if ($validator->fails()) {
-            throw new InvalidArgumentException($validator->errors()->first());
+        if($validator->fails()) {
+             throw new InvalidArgumentException($validator->errors()->first());
         }
 
         $data['ip'] = request()->ip();
